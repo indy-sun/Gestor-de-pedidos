@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Pedidos</title>
+  <style>
+    body {
+      background-color: #E6E6FA; /* lilás claro */
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #D8BFD8;
+    }
+
+    tr:nth-child(even) {
+      background-color: #F8F8FF;
+    }
+
+    .aceitarBtn {
+      background-color: #9370DB;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gestor de Pedidos</h1>
+  <table id="pedidosTable">
+    <thead>
+      <tr>
+        <th>Loja</th>
+        <th>Cliente</th>
+        <th>Status</th>
+        <th>Horário do Pedido</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Pedidos serão inseridos aqui via JS -->
+    </tbody>
+  </table>
+
+  <script>
+    const WEBHOOK_PEDIDOS = 'https://n8n.cardapioweb.com/webhook-test/pedidos';
+    const WEBHOOK_ACEITAR = 'https://n8n.cardapioweb.com/webhook-test/pedidos';
+
+    async function carregarPedidos() {
+      try {
+        const response = await fetch(WEBHOOK_PEDIDOS);
+        const pedidos = await response.json();
+
+        const tbody = document.querySelector('#pedidosTable tbody');
+        tbody.innerHTML = ''; // limpa a tabela
+
+        pedidos.forEach(pedido => {
+          const tr = document.createElement('tr');
+
+          // Cria botão Aceitar somente se o status for pendente
+          let acaoBtn = '';
+          if (pedido.status.toLowerCase() === 'pendente') {
+            acaoBtn = `<button class="aceitarBtn" data-id="${pedido.id}">Aceitar</button>`;
+          }
+
+          tr.innerHTML = `
+            <td>${pedido.loja_nome}</td>
+            <td>${pedido.cliente_nome}</td>
+            <td>${pedido.status}</td>
+            <td>${new Date(pedido.criado_at).toLocaleString()}</td>
+            <td>${acaoBtn}</td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Erro ao carregar pedidos:', err);
+      }
+    }
+
+    // Carregar pedidos ao abrir a página
+    carregarPedidos();
+
+    // Delegação de eventos para lidar com múltiplos botões Aceitar
+    document.querySelector('#pedidosTable tbody').addEventListener('click', async (e) => {
+      if (e.target.classList.contains('aceitarBtn')) {
+        const pedidoId = e.target.dataset.id;
+
+        try {
+          const response = await fetch(WEBHOOK_ACEITAR, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: pedidoId })
+          });
+
+          if (response.ok) {
+            alert('Pedido aceito com sucesso!');
+            carregarPedidos(); // Recarrega a tabela para atualizar o status
+          } else {
+            alert('Erro ao aceitar pedido');
+          }
+        } catch (err) {
+          console.error('Erro ao aceitar pedido:', err);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
