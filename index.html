@@ -66,12 +66,15 @@
 
   <script>
     const WEBHOOK_PEDIDOS = 'https://n8n.cardapioweb.com/webhook/orders';
-    const WEBHOOK_ACEITAR = 'https://n8n.cardapioweb.com/webhook/orders';
+    const WEBHOOK_ACEITAR = 'https://n8n.cardapioweb.com/webhook/aceitar';
+    const TOKEN_SUPABASE = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZHRzd3J6bmp0YWNwcnNicHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3MjY3MDAsImV4cCI6MjA3NzMwMjcwMH0.Gk6wIyFqMZQU7BD27eBLD7kAetwgwNCttbcoeTL6Nj0';
 
     async function carregarPedidos() {
       try {
-        const response = await fetch(WEBHOOK_PEDIDOS);
-        const pedidos = await response.json();
+            const response = await fetch(https://n8n.cardapioweb.com/webhook/orders, {
+            headers: { 'Authorization': eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZHRzd3J6bmp0YWNwcnNicHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3MjY3MDAsImV4cCI6MjA3NzMwMjcwMH0.Gk6wIyFqMZQU7BD27eBLD7kAetwgwNCttbcoeTL6Nj0 }
+    });
+    const pedidos = await response.json();
 
         const tbody = document.querySelector('#pedidosTable tbody');
         tbody.innerHTML = ''; // limpa a tabela
@@ -129,6 +132,7 @@
   </script>
 </body>
 </html>
+
 
 
 
