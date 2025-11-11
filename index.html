@@ -90,8 +90,8 @@
           }
 
           tr.innerHTML = `
-            <td>${pedido.loja_nome}</td>
-            <td>${pedido.cliente_nome}</td>
+            <td>${pedido.name_company}</td>
+            <td>${pedido.name_costumer}</td>
             <td>${pedido.status}</td>
             <td>${new Date(pedido.criado_at).toLocaleString()}</td>
             <td>${acaoBtn}</td>
@@ -133,6 +133,7 @@
   </script>
 </body>
 </html>
+
 
 
 
