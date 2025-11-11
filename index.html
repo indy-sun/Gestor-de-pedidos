@@ -71,7 +71,8 @@
 
     async function carregarPedidos() {
       try {
-            const response = await fetch(https://n8n.cardapioweb.com/webhook/orders, {
+            const response = await fetch(WEBHOOK_PEDIDOS, {
+            method: 'GET',
             headers: { 'Authorization': eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZHRzd3J6bmp0YWNwcnNicHp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3MjY3MDAsImV4cCI6MjA3NzMwMjcwMH0.Gk6wIyFqMZQU7BD27eBLD7kAetwgwNCttbcoeTL6Nj0 }
     });
     const pedidos = await response.json();
@@ -113,7 +114,7 @@
 
         try {
           const response = await fetch(WEBHOOK_ACEITAR, {
-            method: 'POST',
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: pedidoId })
           });
@@ -132,6 +133,7 @@
   </script>
 </body>
 </html>
+
 
 
 
