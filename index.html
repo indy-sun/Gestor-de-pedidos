@@ -80,7 +80,7 @@
         const tbody = document.querySelector('#pedidosTable tbody');
         tbody.innerHTML = ''; // limpa a tabela
 
-pedidos.forEach(pedido => {
+        pedidos.forEach(pedido => {
   console.log('Pedido recebido:', pedido);
 
   const tr = document.createElement('tr');
@@ -117,21 +117,6 @@ pedidos.forEach(pedido => {
 
 
 
-          tr.innerHTML = `
-            <td>${pedido.name_company}</td>
-            <td>${pedido.name_costumer}</td>
-            <td>${pedido.status}</td>
-            <td>${new Date(pedido.time.replace(' ', 'T')).toLocaleString()}</td>
-
-            <td>${acaoBtn}</td>
-          `;
-
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error('Erro ao carregar pedidos:', err);
-      }
-    }
 
     // Carregar pedidos ao abrir a página
     carregarPedidos();
@@ -162,6 +147,7 @@ pedidos.forEach(pedido => {
   </script>
 </body>
 </html>
+
 
 
 
