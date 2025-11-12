@@ -79,45 +79,30 @@
 
         const tbody = document.querySelector('#pedidosTable tbody');
         tbody.innerHTML = ''; // limpa a tabela
-
-        pedidos.forEach(pedido => {
-  console.log('Pedido recebido:', pedido);
-
-  const tr = document.createElement('tr');
-  let acaoBtn = '';
-
-  // Detecta onde o status está — direto ou dentro de 'data'
-  const status = (
-    pedido.status ||
-    pedido.order_status ||
-    pedido.state ||
-    (pedido.data && pedido.data.status) ||
-    ''
-  ).toString().trim().toUpperCase();
-
-  // Cria o botão se o status for "CREATED"
-  if (status === 'CREATED') {
-    acaoBtn = `<button class="aceitarBtn" data-id="${pedido.id}">Aceitar</button>`;
-  }
-
-  tr.innerHTML = `
-    <td>${pedido.name_company || pedido.data?.name_company || '-'}</td>
-    <td>${pedido.name_costumer || pedido.data?.name_costumer || '-'}</td>
-    <td>${status || '-'}</td>
-    <td>${
-      (pedido.time || pedido.data?.time)
-        ? new Date((pedido.time || pedido.data?.time).replace(' ', 'T')).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-        : '-'
-    }</td>
-    <td>${acaoBtn}</td>
-  `;
-
-  tbody.appendChild(tr);
+       pedidos.forEach(pedido => {
+    const tr = document.createElement('tr');
+    
+    // Cria botão Aceitar somente se o status for pendente
+    let acaoBtn = '';
+    
+    if (pedido.status.toLowerCase() === 'pendente') {
+        acaoBtn = `<button class="aceitarBtn" data-id="${pedido.id}">Aceitar</button>`;
+    }
+    
+    tr.innerHTML = `
+        <td>${pedido.name_company}</td>
+        <td>${pedido.name_costumer}</td>
+        <td>${pedido.status}</td>
+        <td>${new Date(pedido.criado_at).toLocaleString()}</td>
+        <td>${acaoBtn}</td>
+    `;
+    
+    tbody.appendChild(tr);
 });
 
-
-
-
+} catch (err) {
+    console.error('Erro ao carregar pedidos:', err);
+} 
     // Carregar pedidos ao abrir a página
     carregarPedidos();
 
@@ -147,6 +132,7 @@
   </script>
 </body>
 </html>
+
 
 
 
