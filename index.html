@@ -85,7 +85,7 @@
 
           // Cria botão Aceitar somente se o status for pendente
           let acaoBtn = '';
-          if (pedido.status && pedido.status.toLowerCase() === 'pendente') {
+          if (pedido.status && pedido.status.toLowerCase() === 'CREATED') {
                 acaoBtn = `<button class="aceitarBtn" data-id="${pedido.id}">Aceitar</button>`;
               }
 
@@ -135,6 +135,7 @@
   </script>
 </body>
 </html>
+
 
 
 
