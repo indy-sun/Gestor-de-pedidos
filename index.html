@@ -96,7 +96,8 @@
                         <td>${pedido.name_company}</td>
                         <td>${pedido.name_costumer}</td>
                         <td>${pedido.status}</td>
-                        <td>${new Date(pedido.criado_at).toLocaleString()}</td>
+                        <td>${new Date(pedido.time.replace(' ', 'T')).toLocaleString()}</td>
+
                         <td>${acaoBtn}</td>
                     `;
                     
@@ -138,3 +139,4 @@
     </script>
 </body>
 </html>
+
