@@ -133,9 +133,13 @@
                 const pedidoId = e.target.dataset.id;
                 
                 try {
-                    const response = await fetch(WEBHOOK_ACEITAR, {
-                        method: 'POST',
-
+                const response = await fetch(WEBHOOK_ACEITAR, {
+                method: 'POST', // ✅ alterado para POST
+                headers: {
+                    'Content-Type': 'application/json'
+                        },
+                    body: JSON.stringify({ id: pedidoId }) // ✅ o corpo agora é permitido
+                        });
                     if (response.ok) {
                         alert('Pedido aceito com sucesso!');
                         carregarPedidos(); // Recarrega a tabela para atualizar o status
