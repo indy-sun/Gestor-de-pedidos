@@ -135,12 +135,7 @@
                 
                 try {
                     const response = await fetch(WEBHOOK_ACEITAR, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ id: pedidoId })
-                    });
+                        method: 'POST'
 
                     if (response.ok) {
                         alert('Pedido aceito com sucesso!');
@@ -156,6 +151,7 @@
     </script>
 </body>
 </html>
+
 
 
 
