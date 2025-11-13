@@ -88,9 +88,13 @@
                     // Cria botão Aceitar somente se o status for pendente
                     let acaoBtn = '';
                     
-                    if (pedido.status.toLowerCase() === 'CREATED') {
-                        acaoBtn = `<button class="aceitarBtn" data-id="${pedido.id}">Aceitar</button>`;
-                    }
+                    if (pedido.status && pedido.status.toUpperCase() === 'CREATED') {
+                            const btn = document.createElement("button");
+                            btn.textContent = "Aceitar";
+                            btn.classList.add("aceitarBtn");
+                            btn.dataset.id = pedido.id;
+                            tdAcoes.appendChild(btn);
+                        }
                     
                     tr.innerHTML = `
                         <td>${pedido.name_company}</td>
@@ -139,6 +143,7 @@
     </script>
 </body>
 </html>
+
 
 
 
