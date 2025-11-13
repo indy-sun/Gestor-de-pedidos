@@ -128,40 +128,39 @@
         carregarPedidos();
 
         // Delegação de eventos para lidar com múltiplos botões Aceitar
-        document.querySelector('#pedidosTable tbody').addEventListener('click', async (e) => {
-  if (e.target.classList.contains('aceitarBtn')) {
-    const pedidoId = e.target.dataset.id;
-    console.log("🟣 Clicou no botão Aceitar para o pedido ID:", pedidoId);
+document.querySelector('#pedidosTable tbody').addEventListener('click', async (e) => {
+    if (e.target.classList.contains('aceitarBtn')) {
+        const pedidoId = e.target.dataset.id;
+        console.log("🟣 Clicou no botão Aceitar para o pedido ID:", pedidoId);
 
-    try {
-      const response = await fetch(WEBHOOK_ACEITAR, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: pedidoId })
-      });
+        try {
+            // 🔹 Envia o ID como parâmetro de URL, já que o método é GET
+            const response = await fetch(`https://n8n.cardapioweb.com/webhook/ed6e2e38-a8fe-4c2e-a31b-054299ae36e2?id=${pedidoId}`, {
+                method: 'GET',
+            });
 
-      console.log("🔵 Resposta do webhook:", response);
+            console.log("🔵 Resposta do webhook:", response);
 
-      if (response.ok) {
-        alert('Pedido aceito com sucesso!');
-        carregarPedidos();
-      } else {
-        const texto = await response.text();
-        console.error("❌ Erro no response:", texto);
-        alert('Erro ao aceitar pedido');
-      }
-
-    } catch (err) {
-      console.error('🚨 Erro ao aceitar pedido:', err);
+            if (response.ok) {
+                const data = await response.json();
+                console.log("🟢 Dados do webhook:", data);
+                alert('Pedido aceito com sucesso!');
+                carregarPedidos(); // Recarrega a tabela
+            } else {
+                console.error("❌ Erro no response:", await response.text());
+                alert('Erro ao aceitar pedido');
+            }
+        } catch (err) {
+            console.error('Erro ao aceitar pedido:', err);
+        }
     }
-  }
 });
+
 
     </script>
 </body>
 </html>
+
 
 
 
