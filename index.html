@@ -129,32 +129,40 @@
 
         // Delegação de eventos para lidar com múltiplos botões Aceitar
         document.querySelector('#pedidosTable tbody').addEventListener('click', async (e) => {
-            if (e.target.classList.contains('aceitarBtn')) {
-                const pedidoId = e.target.dataset.id;
-                
-                try {
-                    const response = await fetch(WEBHOOK_ACEITAR, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ id: pedidoId })
-                    });
+  if (e.target.classList.contains('aceitarBtn')) {
+    const pedidoId = e.target.dataset.id;
+    console.log("🟣 Clicou no botão Aceitar para o pedido ID:", pedidoId);
 
-                    if (response.ok) {
-                        alert('Pedido aceito com sucesso!');
-                        carregarPedidos(); // Recarrega a tabela para atualizar o status
-                    } else {
-                        alert('Erro ao aceitar pedido');
-                    }
-                } catch (err) {
-                    console.error('Erro ao aceitar pedido:', err);
-                }
-            }
-        });
+    try {
+      const response = await fetch(WEBHOOK_ACEITAR, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: pedidoId })
+      });
+
+      console.log("🔵 Resposta do webhook:", response);
+
+      if (response.ok) {
+        alert('Pedido aceito com sucesso!');
+        carregarPedidos();
+      } else {
+        const texto = await response.text();
+        console.error("❌ Erro no response:", texto);
+        alert('Erro ao aceitar pedido');
+      }
+
+    } catch (err) {
+      console.error('🚨 Erro ao aceitar pedido:', err);
+    }
+  }
+});
+
     </script>
 </body>
 </html>
+
 
 
 
