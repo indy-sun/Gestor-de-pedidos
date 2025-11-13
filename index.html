@@ -83,30 +83,41 @@
                 tbody.innerHTML = ''; // limpa a tabela
 
                 pedidos.forEach(pedido => {
-                    const tr = document.createElement('tr');
+                      const tr = document.createElement("tr");
                     
-                    // Cria botão Aceitar somente se o status for pendente
-                    let acaoBtn = '';
+                      const tdId = document.createElement("td");
+                      tdId.textContent = pedido.id;
+                      tr.appendChild(tdId);
                     
-                    if (pedido.status && pedido.status.toUpperCase() === 'CREATED') {
-                            const btn = document.createElement("button");
-                            btn.textContent = "Aceitar";
-                            btn.classList.add("aceitarBtn");
-                            btn.dataset.id = pedido.id;
-                            tdAcoes.appendChild(btn);
-                        }
+                      const tdCliente = document.createElement("td");
+                      tdCliente.textContent = pedido.cliente;
+                      tr.appendChild(tdCliente);
                     
-                    tr.innerHTML = `
-                        <td>${pedido.name_company}</td>
-                        <td>${pedido.name_costumer}</td>
-                        <td>${pedido.status}</td>
-                        <td>${new Date(pedido.time.replace(' ', 'T')).toLocaleString()}</td>
+                      const tdStatus = document.createElement("td");
+                      tdStatus.textContent = pedido.status;
+                      tr.appendChild(tdStatus);
+                    
+                      const tdData = document.createElement("td");
+                      tdData.textContent = new Date(pedido.time).toLocaleString("pt-BR");
+                      tr.appendChild(tdData);
+                    
+                      // 👉 aqui criamos a célula de ações
+                      const tdAcoes = document.createElement("td");
+                    
+                      // 👉 se o status for CREATED, adiciona o botão Aceitar
+                      if (pedido.status && pedido.status.toUpperCase() === "CREATED") {
+                        const botaoAceitar = document.createElement("button");
+                        botaoAceitar.textContent = "Aceitar";
+                        botaoAceitar.classList.add("aceitarBtn");
+                        botaoAceitar.dataset.id = pedido.id;
+                        tdAcoes.appendChild(botaoAceitar);
+                      }
+                    
+                      tr.appendChild(tdAcoes); // 👉 adiciona a célula à linha
+                      tabelaPedidos.appendChild(tr);
+                    }
 
-                        <td>${acaoBtn}</td>
-                    `;
-                    
-                    tbody.appendChild(tr);
-                });
+            );
             } catch (err) {
                 console.error('Erro ao carregar pedidos:', err);
             }
@@ -143,6 +154,7 @@
     </script>
 </body>
 </html>
+
 
 
 
