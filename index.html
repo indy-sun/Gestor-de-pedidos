@@ -54,7 +54,7 @@
             <tr>
                 <th>Loja</th>
                 <th>Cliente</th>
-                <th>Status</th> 
+                <th>Status</th>
                 <th>Horário do Pedido</th>
                 <th>Ação</th>
             </tr>
@@ -133,13 +133,14 @@
                 const pedidoId = e.target.dataset.id;
                 
                 try {
-                const response = await fetch(WEBHOOK_ACEITAR, {
-                method: 'POST', // ✅ alterado para POST
-                headers: {
-                    'Content-Type': 'application/json'
+                    const response = await fetch(WEBHOOK_ACEITAR, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
                         },
-                    body: JSON.stringify({ id: pedidoId }) // ✅ o corpo agora é permitido
-                        });
+                        body: JSON.stringify({ id: pedidoId })
+                    });
+
                     if (response.ok) {
                         alert('Pedido aceito com sucesso!');
                         carregarPedidos(); // Recarrega a tabela para atualizar o status
@@ -154,12 +155,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
 
 
 
